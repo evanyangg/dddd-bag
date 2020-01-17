@@ -1,6 +1,4 @@
 rootProject.name = 'dddd-bag'
-include 'alipay'
-include 'aliyun'
 include 'dddd-bag-alipay'
 include 'dddd-bag-aliyun'
 include 'dddd-bag-common'

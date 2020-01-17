@@ -2,15 +2,78 @@ plugins {
     id 'java'
 }
 
-group 'com.floatsee.ddddbag'
-version '1.0.0-SNAPSHOT'
+// 应用常量配置文件
+apply from: "config.gradle"
 
-sourceCompatibility = 1.8
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    group = 'com.floatsee.ddddbag'
+    version = '1.0.0-SNAPSHOT'
+
+    // 解决发布snapshot时, 同版本内容不更新的问题
+    configurations.all {
+        // 动态版本
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+        // 变化模块
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+}
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+// 所有子项目配置
+subprojects {
+
+    // JDK版本
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    // 编码格式
+    [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+
+    // 指定maven源
+    repositories {
+        maven { url 'http://183.207.183.130:19100/repository/maven-public/' }
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly rootProject.ext.dependencies['lombok']
+        annotationProcessor rootProject.ext.dependencies['lombok']
+        compile rootProject.ext.dependencies['fastjson']
+        testCompile rootProject.ext.dependencies['junit']
+    }
+
+    // 打包源码
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+        classifier "sources"
+    }
+
+    // 版本发布
+    publishing {
+        publications {
+            maven(MavenPublication){
+                from components.java
+                artifact sourceJar
+            }
+        }
+        repositories {
+            maven {
+                def releasesRepoUrl = "http://183.207.183.130:19100/repository/maven-releases"
+                def snapshotsRepoUrl = "http://183.207.183.130:19100/repository/maven-snapshots/"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username 'wangdou'
+                    password 'wangdou123'
+                }
+            }
+        }
+    }
 }

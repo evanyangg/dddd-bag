@@ -1,0 +1,15 @@
+ext {
+    version = [
+            lombok:         "1.18.6",
+            fastjson:       "1.2.59",
+            okhttp:         "4.2.2",
+            junit:          "4.12"
+    ]
+
+    dependencies = [
+            "fastjson"                  :"com.alibaba:fastjson:${version.fastjson}",
+            "okhttp"                    :"com.squareup.okhttp3:okhttp:${version.okhttp}",
+            "lombok"                    :"org.projectlombok:lombok:${version.lombok}",
+            "junit"                    :"junit:junit:${version.junit}"
+    ]
+}
