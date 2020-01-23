@@ -5,4 +5,5 @@ include 'dddd-bag-common'
 include 'dddd-bag-ele'
 include 'dddd-bag-meituan'
 include 'dddd-bag-wechat'
+include 'dddd-bag-dingding'
 

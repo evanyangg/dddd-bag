@@ -2,7 +2,7 @@ ext {
     version = [
             lombok:         "1.18.6",
             fastjson:       "1.2.59",
-            okhttp:         "4.2.2",
+            okhttp:         "4.3.1",
             junit:          "4.12"
     ]
 
