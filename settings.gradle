@@ -7,4 +7,5 @@ include 'dddd-bag-meituan'
 include 'dddd-bag-wechat'
 include 'dddd-bag-dingding'
 include 'dddd-bag-baidu'
+include 'dddd-bag-gaode'
 
